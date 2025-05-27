@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { checkItemPrice } from './checkItemPrice.js'; // adjust path if needed
+import { checkItemPrice } from './priceLogic.js'; // adjust path if needed
 
 dotenv.config();
 
