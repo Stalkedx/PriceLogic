@@ -1,24 +1,27 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { checkItemPrice } from './priceLogic.js';
+import { checkItemPrice } from './checkItemPrice.js'; // adjust path if needed
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-app.get('/checkPrice', async (req, res) => {
-  const item = req.query.item;
-  if (!item) return res.status(400).json({ error: 'Missing item parameter' });
+app.get("/checkPrice", async (req, res) => {
+  const itemName = req.query.item;
+  if (!itemName) return res.status(400).json({ error: "Missing item name" });
 
   try {
-    const data = await checkItemPrice(item);
-    res.json(data);
-  } catch (e) {
-    res.status(500).json({ error: e.message || 'Server error' });
+    const result = await checkItemPrice(itemName);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
